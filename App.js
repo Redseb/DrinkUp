@@ -19,18 +19,15 @@ import {
 import Background from './src/components/Background';
 //Screens
 import HomeScreen from './src/screens/HomeScreen';
+import ScreenContainer from './src/screens/ScreenContainer';
 
 const App = () => {
-  const [players, setPlayers] = useState([
-    {name: '', id: 1},
-    {name: '', id: 2},
-  ]);
   return (
     <>
       <StatusBar translucent backgroundColor="rgba(0,0,0,0)" />
       <SafeAreaView>
         <Background />
-        <HomeScreen players={players} setPlayers={setPlayers} />
+        <ScreenContainer />
       </SafeAreaView>
     </>
   );

@@ -8,9 +8,9 @@ import Animated, {
   repeat,
 } from 'react-native-reanimated';
 
-const {width, height} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('window');
 
-const Background = () => {
+const Background = ({players}) => {
   const yTranslation = useSharedValue(0);
 
   const stripeAnimationStyle = useAnimatedStyle(() => {
@@ -19,8 +19,8 @@ const Background = () => {
         {
           translateY: repeat(
             withTiming(yTranslation.value, {
-              duration: 7000,
-              easing: Easing.in,
+              duration: 14000,
+              easing: Easing.inOut(Easing.ease),
             }),
             -1,
             true,
@@ -31,11 +31,14 @@ const Background = () => {
   });
 
   useEffect(() => {
-    yTranslation.value = height / 27;
+    console.log(yTranslation.value);
+    yTranslation.value = -height / 3;
   }, []);
 
   return (
     <Animated.View style={[styles.container, stripeAnimationStyle]}>
+      <View style={styles.blackStripe} />
+      <View style={styles.yellowStripe} />
       <View style={styles.blackStripe} />
       <View style={styles.yellowStripe} />
       <View style={styles.blackStripe} />

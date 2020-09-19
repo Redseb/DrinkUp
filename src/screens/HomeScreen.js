@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -56,13 +56,15 @@ const HomeScreen = ({players, setPlayers}) => {
     />
   ));
 
+  const playerListRef = useRef();
+
   return (
     <View style={[styles.container, StyleSheet.absoluteFillObject]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Drink Up!</Text>
       </View>
       <View style={styles.playersContainer}>
-        <ScrollView>{playerBadges}</ScrollView>
+        <ScrollView ref={playerListRef}>{playerBadges}</ScrollView>
       </View>
       <View style={styles.buttonsContainer}>
         <Button
@@ -76,6 +78,9 @@ const HomeScreen = ({players, setPlayers}) => {
               },
             ]);
             scaleToButton.value = 0.9;
+            setTimeout(() => {
+              playerListRef.current.scrollToEnd({animated: true});
+            }, 100);
           }}
           style={scaleButtonAnimStyle}
         />

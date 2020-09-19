@@ -24,6 +24,7 @@ const PlayerBadge = ({playerName, id, players, setPlayers}) => {
       <TextInput
         style={styles.name}
         numberOfLines={1}
+        maxLength={12}
         placeholder={`Player ${id}`}
         onChangeText={(text) => {
           let newPlayers = players;
