@@ -22,6 +22,11 @@ const {width, height} = Dimensions.get('screen');
 
 const HomeScreen = ({players, setPlayers}) => {
   const scaleToButton = useSharedValue(1);
+  //Resets scaleToButton whenever players changes (removing players).
+  //Without this the button animates when removing players too
+  useEffect(() => {
+    scaleToButton.value = 1;
+  }, [players]);
   const scaleButtonAnimStyle = useAnimatedStyle(() => {
     return {
       transform: [

@@ -10,10 +10,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JSIModulePackage; // <- add
 import com.facebook.soloader.SoLoader;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
 
 public class MainApplication extends Application implements ReactApplication {
