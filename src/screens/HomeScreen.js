@@ -12,6 +12,7 @@ import Animated, {
   useAnimatedStyle,
   Easing,
   withTiming,
+  withSpring,
   sequence,
 } from 'react-native-reanimated';
 
@@ -20,19 +21,23 @@ import Button from '../components/Button';
 
 const {width, height} = Dimensions.get('screen');
 
-const HomeScreen = ({players, setPlayers}) => {
-  const scaleToButton = useSharedValue(1);
-  //Resets scaleToButton whenever players changes (removing players).
+const HomeScreen = ({players, setPlayers, setInGame}) => {
+  const addPlayerButtonScale = useSharedValue(1);
+  const startButtonScale = useSharedValue(1);
+  const screenScale = useSharedValue(0);
+  //Resets addPlayerButtonScale whenever players changes (removing players).
   //Without this the button animates when removing players too
   useEffect(() => {
-    scaleToButton.value = 1;
+    addPlayerButtonScale.value = 1;
+    startButtonScale.value = 1;
+    screenScale.value = 1;
   }, [players]);
-  const scaleButtonAnimStyle = useAnimatedStyle(() => {
+  const addPlayerButtonAnimation = useAnimatedStyle(() => {
     return {
       transform: [
         {
           scale: sequence(
-            withTiming(scaleToButton.value, {
+            withTiming(addPlayerButtonScale.value, {
               duration: 100,
               easing: Easing.bezier(0.5, 0.01, 0, 1),
             }),
@@ -41,6 +46,36 @@ const HomeScreen = ({players, setPlayers}) => {
               easing: Easing.bezier(0.5, 0.01, 0, 1),
             }),
           ),
+        },
+      ],
+    };
+  });
+  const startButtonAnimation = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: sequence(
+            withTiming(startButtonScale.value, {
+              duration: 100,
+              easing: Easing.bezier(0.5, 0.01, 0, 1),
+            }),
+            withTiming(1, {
+              duration: 100,
+              easing: Easing.bezier(0.5, 0.01, 0, 1),
+            }),
+          ),
+        },
+      ],
+    };
+  });
+  const scaledScreenAnimation = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: withTiming(screenScale.value, {
+            duration: 300,
+            easing: Easing.ease,
+          }),
         },
       ],
     };
@@ -59,7 +94,12 @@ const HomeScreen = ({players, setPlayers}) => {
   const playerListRef = useRef();
 
   return (
-    <View style={[styles.container, StyleSheet.absoluteFillObject]}>
+    <Animated.View
+      style={[
+        scaledScreenAnimation,
+        styles.container,
+        StyleSheet.absoluteFillObject,
+      ]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Drink Up!</Text>
       </View>
@@ -77,21 +117,26 @@ const HomeScreen = ({players, setPlayers}) => {
                 id: players.length > 0 ? players[players.length - 1].id + 1 : 1,
               },
             ]);
-            scaleToButton.value = 0.9;
+            addPlayerButtonScale.value = 0.9;
             setTimeout(() => {
               playerListRef.current.scrollToEnd({animated: true});
             }, 100);
           }}
-          style={scaleButtonAnimStyle}
+          style={addPlayerButtonAnimation}
         />
         <Button
           text={players.length == 0 ? 'Play Without Players' : 'Play!'}
           onPress={() => {
-            console.log('Hi');
+            startButtonScale.value = 0.9;
+            setTimeout(() => {
+              screenScale.value = 0;
+              setTimeout(() => setInGame(true), 300);
+            }, 200);
           }}
+          style={startButtonAnimation}
         />
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
