@@ -14,7 +14,7 @@ const CARD_WIDTH = width / 1.15;
 
 const Card = ({title, desc, type, style}) => {
   return (
-    <View style={[style, styles.container, StyleSheet.absoluteFillObject]}>
+    <View style={[styles.container, StyleSheet.absoluteFillObject, style]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
       </View>
@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#FDD451',
     borderWidth: 2,
-    elevation: 10,
+
+    // elevation: 10,
   },
   titleContainer: {
     display: 'flex',
@@ -63,15 +64,16 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    fontSize: height / 22,
+    fontSize: height / 24,
     fontFamily: 'FjallaOne',
     color: '#303030',
   },
   desc: {
     textAlign: 'center',
-    fontSize: height / 24,
+    fontSize: height / 22,
     fontFamily: 'FjallaOne',
     color: '#FDD451',
+    paddingHorizontal: (width - CARD_WIDTH) / 4,
   },
   logoContainer: {
     marginBottom: height / 40,
