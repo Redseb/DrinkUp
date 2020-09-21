@@ -31,7 +31,6 @@ const Background = ({players}) => {
   });
 
   useEffect(() => {
-    console.log(yTranslation.value);
     yTranslation.value = -height / 3;
   }, []);
 

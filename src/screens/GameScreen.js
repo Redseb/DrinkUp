@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,6 +13,8 @@ const {width, height} = Dimensions.get('screen');
 
 //Components
 import Card from '../components/Card';
+//Utils
+import {initDeck, shuffle, nextCard} from '../util/card-supplier';
 
 const GameScreen = ({players, setPlayers, setInGame}) => {
   //Set up BackHandler to go back to title screen when pressing back button (ANDROID)
@@ -24,10 +26,14 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
         return true;
       },
     );
+
     return () => {
       backHandler.remove();
     };
   }, []);
+
+  const [deck, setDeck] = useState(() => initDeck());
+  const [currCardIndex, setCurrCardIndex] = useState(0);
 
   return (
     <View style={[styles.container, StyleSheet.absoluteFillObject]}>
@@ -40,9 +46,15 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
         </TouchableOpacity>
       </View>
       <Card
-        title={'👩 Longest Hair 👩'}
-        desc={'The player with the longest hair drinks'}
-        type={'Default'}
+        title={deck[currCardIndex + 1].title}
+        desc={deck[currCardIndex + 1].desc}
+        type={deck[currCardIndex + 1].type}
+      />
+      <Card
+        title={deck[currCardIndex].title}
+        desc={deck[currCardIndex].desc}
+        type={deck[currCardIndex].type}
+        style={{transform: [{translateX: 50}]}}
       />
     </View>
   );

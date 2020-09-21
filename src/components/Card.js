@@ -9,10 +9,12 @@ import Animated, {
 } from 'react-native-reanimated';
 
 const {width, height} = Dimensions.get('screen');
+const CARD_HEIGHT = height / 1.3;
+const CARD_WIDTH = width / 1.15;
 
-const Card = ({title, desc, type}) => {
+const Card = ({title, desc, type, style}) => {
   return (
-    <View style={styles.container}>
+    <View style={[style, styles.container, StyleSheet.absoluteFillObject]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
       </View>
@@ -38,8 +40,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignSelf: 'center',
-    height: height / 1.3,
-    width: width / 1.15,
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH,
+    marginVertical: (height - CARD_HEIGHT) / 2,
+    marginHorizontal: (width - CARD_WIDTH) / 2,
     backgroundColor: '#303030',
     borderRadius: 10,
     borderColor: '#FDD451',
@@ -59,13 +63,13 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    fontSize: height / 20,
+    fontSize: height / 22,
     fontFamily: 'FjallaOne',
     color: '#303030',
   },
   desc: {
     textAlign: 'center',
-    fontSize: height / 20,
+    fontSize: height / 24,
     fontFamily: 'FjallaOne',
     color: '#FDD451',
   },
