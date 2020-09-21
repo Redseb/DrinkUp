@@ -48,8 +48,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#FDD451',
     borderWidth: 2,
-
-    // elevation: 10,
+    elevation: 10,
   },
   titleContainer: {
     display: 'flex',

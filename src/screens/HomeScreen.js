@@ -24,13 +24,13 @@ const {width, height} = Dimensions.get('screen');
 const HomeScreen = ({players, setPlayers, setInGame}) => {
   const addPlayerButtonScale = useSharedValue(1);
   const startButtonScale = useSharedValue(1);
-  const screenScale = useSharedValue(0);
+  const screenSlide = useSharedValue(height);
   //Resets addPlayerButtonScale whenever players changes (removing players).
   //Without this the button animates when removing players too
   useEffect(() => {
     addPlayerButtonScale.value = 1;
     startButtonScale.value = 1;
-    screenScale.value = 1;
+    screenSlide.value = 1;
   }, [players]);
   const addPlayerButtonAnimation = useAnimatedStyle(() => {
     return {
@@ -72,9 +72,8 @@ const HomeScreen = ({players, setPlayers, setInGame}) => {
     return {
       transform: [
         {
-          scale: withTiming(screenScale.value, {
-            duration: 300,
-            easing: Easing.ease,
+          translateY: withSpring(screenSlide.value, {
+            damping: 12,
           }),
         },
       ],
@@ -129,7 +128,7 @@ const HomeScreen = ({players, setPlayers, setInGame}) => {
           onPress={() => {
             startButtonScale.value = 0.9;
             setTimeout(() => {
-              screenScale.value = 0;
+              screenSlide.value = height;
               setTimeout(() => setInGame(true), 300);
             }, 200);
           }}

@@ -39,8 +39,7 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
       transform: [
         {
           translateY: withSpring(slideUpY.value, {
-            duration: 400,
-            easing: Easing.out,
+            damping: 12,
           }),
         },
       ],
@@ -117,7 +116,6 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
             title={deck[currCardIndex].title}
             desc={deck[currCardIndex].desc}
             type={deck[currCardIndex].type}
-            style={{elevation: 10}}
           />
         </Animated.View>
       </Animated.View>
