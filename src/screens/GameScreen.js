@@ -11,7 +11,6 @@ import Animated, {
   Extrapolate,
   useSharedValue,
   useAnimatedStyle,
-  Easing,
   withSpring,
 } from 'react-native-reanimated';
 import Swipeable from '../components/Swipeable';
@@ -28,7 +27,8 @@ import {RectButton} from 'react-native-gesture-handler';
 const deltaX = width / 2;
 const α = Math.PI / 12;
 const A = Math.round(width * Math.cos(α) + height * Math.sin(α));
-const snapPoints = [-A, 0, A];
+const snapPointsX = [-A, 0, A];
+const snapPointsY = [-A * 2, 0, A * 2];
 
 const GameScreen = ({players, setPlayers, setInGame}) => {
   const [deck, setDeck] = useState(() => initDeck());
@@ -38,9 +38,7 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
     return {
       transform: [
         {
-          translateY: withSpring(slideUpY.value, {
-            damping: 12,
-          }),
+          translateY: slideUpY.value,
         },
       ],
     };
@@ -56,13 +54,14 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
     [],
   );
   useEffect(() => {
-    slideUpY.value = 0;
+    slideUpY.value = withSpring(0, {damping: 20});
   }, [currCardIndex]);
 
   const onSnap = useMemoOne(
     () => ([point]) => {
       if (point !== 0) {
-        slideUpY.value = height * 2;
+        slideUpY.value = height * 2.8; //2.7
+
         offsetX.setValue(0);
         x.setValue(0);
         setCurrCardIndex((currCardIndex + 1) % deck.length);
@@ -120,7 +119,12 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
         </Animated.View>
       </Animated.View>
 
-      <Swipeable key={currCardIndex} {...{snapPoints, onSnap, x, y, offsetX}} />
+      <Swipeable
+        key={currCardIndex}
+        // {...{snapPointsX, onSnap, x, y, offsetX}}
+
+        {...{snapPointsX, snapPointsY, onSnap, x, y, offsetX}}
+      />
     </View>
   );
 };

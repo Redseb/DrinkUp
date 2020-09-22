@@ -21,7 +21,15 @@ const {width, height} = Dimensions.get('screen');
 const CARD_HEIGHT = height / 1.3;
 const CARD_WIDTH = width / 1.15;
 
-const Swipeable = ({x, y, offsetX, offsetY, snapPoints, onSnap}) => {
+const Swipeable = ({
+  x,
+  y,
+  offsetX,
+  offsetY,
+  snapPointsX,
+  snapPointsY,
+  onSnap,
+}) => {
   const translationX = new Value(0);
   const translationY = new Value(0);
   const velocityX = new Value(0);
@@ -38,7 +46,7 @@ const Swipeable = ({x, y, offsetX, offsetY, snapPoints, onSnap}) => {
     velocity: velocityX,
     offset: offsetX,
     state,
-    snapPoints,
+    snapPoints: snapPointsX,
     onSnap,
     config,
   });
@@ -47,7 +55,8 @@ const Swipeable = ({x, y, offsetX, offsetY, snapPoints, onSnap}) => {
     velocity: velocityY,
     offset: offsetY || new Value(0),
     state,
-    snapPoints: [0],
+    snapPoints: snapPointsY,
+    onSnap,
     config,
   });
   useCode(() => block([set(x, translateX), set(y, translateY)]), [

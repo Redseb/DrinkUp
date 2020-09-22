@@ -73,7 +73,7 @@ const HomeScreen = ({players, setPlayers, setInGame}) => {
       transform: [
         {
           translateY: withSpring(screenSlide.value, {
-            damping: 12,
+            damping: 20,
           }),
         },
       ],
