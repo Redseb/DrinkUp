@@ -60,7 +60,7 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
   const onSnap = useMemoOne(
     () => ([point]) => {
       if (point !== 0) {
-        slideUpY.value = height * 2.8; //2.7
+        slideUpY.value = height;
 
         offsetX.setValue(0);
         x.setValue(0);
@@ -80,12 +80,19 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
   const translateX = x;
   const translateY = y;
   // End Tinder Swipe
-  //Set up BackHandler to go back to title screen when pressing back button (ANDROID)
+  // Handle back button physical or digital
+  const onBack = () => {
+    setTimeout(() => {
+      slideUpY.value = withSpring(height, {damping: 20});
+      setTimeout(() => setInGame(false), 300);
+    }, 200);
+  };
+  // Set up BackHandler to go back to title screen when pressing back button (ANDROID)
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       () => {
-        setInGame(false);
+        onBack();
         return true;
       },
     );
@@ -98,10 +105,7 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
   return (
     <View style={[styles.container, StyleSheet.absoluteFillObject]}>
       <View style={[styles.backButtonContainer, StyleSheet.absoluteFillObject]}>
-        <RectButton
-          onPress={() => {
-            setInGame(false);
-          }}>
+        <RectButton onPress={onBack}>
           <Icon name="arrow-back" size={height / 18} color="#FDD451" />
         </RectButton>
       </View>
@@ -115,6 +119,7 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
             title={deck[currCardIndex].title}
             desc={deck[currCardIndex].desc}
             type={deck[currCardIndex].type}
+            player={players[currCardIndex % players.length]}
           />
         </Animated.View>
       </Animated.View>

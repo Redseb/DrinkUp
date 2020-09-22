@@ -12,14 +12,31 @@ const {width, height} = Dimensions.get('screen');
 const CARD_HEIGHT = height / 1.3;
 const CARD_WIDTH = width / 1.15;
 
-const Card = ({title, desc, type, style}) => {
+const Card = ({title, desc, type, style, player}) => {
+  const text = [];
+  const splitDesc = desc.split('[Random Player]');
+
   return (
     <View style={[styles.container, StyleSheet.absoluteFillObject, style]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
       </View>
+      {desc.includes('[Random Player]') ? (
+        <Text style={styles.desc}>
+          {splitDesc[0]}{' '}
+          <Text style={[styles.desc, {color: 'red'}]}>
+            {player !== undefined
+              ? player.name !== ''
+                ? player.name
+                : 'You'
+              : 'You'}
+          </Text>{' '}
+          {splitDesc[1]}
+        </Text>
+      ) : (
+        <Text style={styles.desc}>{splitDesc[0]}</Text>
+      )}
 
-      <Text style={styles.desc}>{desc}</Text>
       <View style={styles.logoContainer}>
         <Text
           style={[
