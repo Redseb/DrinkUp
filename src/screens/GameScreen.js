@@ -30,9 +30,15 @@ const A = Math.round(width * Math.cos(α) + height * Math.sin(α));
 const snapPointsX = [-A, 0, A];
 const snapPointsY = [-A * 3, 0, A * 2]; // Disables sliding up so the flicker bug doesnt appear
 
-const GameScreen = ({players, setPlayers, setInGame}) => {
-  const [deck, setDeck] = useState(() => initDeck());
-  const [currCardIndex, setCurrCardIndex] = useState(0);
+const GameScreen = ({
+  players,
+  setPlayers,
+  setInGame,
+  deck,
+  setDeck,
+  currCardIndex,
+  setCurrCardIndex,
+}) => {
   const slideUpY = useSharedValue(height);
   const slideUpAnim = useAnimatedStyle(() => {
     return {
@@ -56,6 +62,11 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
   );
   useEffect(() => {
     slideUpY.value = withSpring(0, {damping: 20});
+    // console.log(deck);
+    if (currCardIndex == deck.length - 1) {
+      const newDeck = shuffle(deck);
+      setDeck(newDeck);
+    }
   }, [currCardIndex]);
 
   const onSnap = useMemoOne(

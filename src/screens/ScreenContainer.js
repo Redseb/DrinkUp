@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Dimensions, View} from 'react-native';
 import HomeScreen from './HomeScreen';
 import GameScreen from './GameScreen';
+import {initDeck, shuffle, nextCard} from '../util/card-supplier';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -12,10 +13,20 @@ const ScreenContainer = () => {
     {name: '', id: 2},
   ]);
   const [inGame, setInGame] = useState(false);
+  const [deck, setDeck] = useState(() => initDeck());
+  const [currCardIndex, setCurrCardIndex] = useState(0);
+
   return (
     <>
       {inGame ? (
-        <GameScreen players={players} setInGame={setInGame} />
+        <GameScreen
+          players={players}
+          setInGame={setInGame}
+          deck={deck}
+          setDeck={setDeck}
+          currCardIndex={currCardIndex}
+          setCurrCardIndex={setCurrCardIndex}
+        />
       ) : (
         <HomeScreen
           players={players}
