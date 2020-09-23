@@ -28,7 +28,7 @@ const deltaX = width / 2;
 const α = Math.PI / 12;
 const A = Math.round(width * Math.cos(α) + height * Math.sin(α));
 const snapPointsX = [-A, 0, A];
-const snapPointsY = [-A * 2, 0, A * 2];
+const snapPointsY = [-A * 3, 0, A * 2]; // Disables sliding up so the flicker bug doesnt appear
 
 const GameScreen = ({players, setPlayers, setInGame}) => {
   const [deck, setDeck] = useState(() => initDeck());
@@ -45,11 +45,12 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
   });
 
   //TinderSwipe
-  const {x, y, offsetX} = useMemoOne(
+  const {x, y, offsetX, offsetY} = useMemoOne(
     () => ({
       x: new Value(0),
       y: new Value(0),
       offsetX: new Value(0),
+      offsetY: new Value(0),
     }),
     [],
   );
@@ -64,10 +65,12 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
 
         offsetX.setValue(0);
         x.setValue(0);
+        offsetY.setValue(0);
+        y.setValue(0);
         setCurrCardIndex((currCardIndex + 1) % deck.length);
       }
     },
-    [currCardIndex, offsetX, deck.length],
+    [currCardIndex, offsetX, offsetY, deck.length],
   );
   const rotateZ = concat(
     interpolateNode(x, {
@@ -116,6 +119,7 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
             transform: [{translateX}, {translateY}, {rotateZ}],
           }}>
           <Card
+            emoji={deck[currCardIndex].emoji}
             title={deck[currCardIndex].title}
             desc={deck[currCardIndex].desc}
             type={deck[currCardIndex].type}
@@ -128,7 +132,7 @@ const GameScreen = ({players, setPlayers, setInGame}) => {
         key={currCardIndex}
         // {...{snapPointsX, onSnap, x, y, offsetX}}
 
-        {...{snapPointsX, snapPointsY, onSnap, x, y, offsetX}}
+        {...{snapPointsX, snapPointsY, onSnap, x, y, offsetX, offsetY}}
       />
     </View>
   );

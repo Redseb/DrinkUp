@@ -12,25 +12,27 @@ const {width, height} = Dimensions.get('screen');
 const CARD_HEIGHT = height / 1.3;
 const CARD_WIDTH = width / 1.15;
 
-const Card = ({title, desc, type, style, player}) => {
+const Card = ({emoji, title, desc, type, style, player}) => {
   const text = [];
   const splitDesc = desc.split('[Random Player]');
 
   return (
     <View style={[styles.container, StyleSheet.absoluteFillObject, style]}>
       <View style={styles.titleContainer}>
+        <Text style={styles.emoji}>{emoji}</Text>
         <Text style={styles.title}>{title}</Text>
+        <Text style={styles.emoji}>{emoji}</Text>
       </View>
       {desc.includes('[Random Player]') ? (
         <Text style={styles.desc}>
-          {splitDesc[0]}{' '}
+          {splitDesc[0]}
           <Text style={[styles.desc, {color: 'red'}]}>
             {player !== undefined
               ? player.name !== ''
                 ? player.name
-                : 'You'
-              : 'You'}
-          </Text>{' '}
+                : 'The Player Reading This'
+              : 'The Player Reading This'}
+          </Text>
           {splitDesc[1]}
         </Text>
       ) : (
@@ -78,11 +80,16 @@ const styles = StyleSheet.create({
     marginTop: height / 40,
     padding: height / 150,
   },
+  emoji: {
+    fontSize: height / 24,
+    alignSelf: 'center',
+  },
   title: {
     textAlign: 'center',
     fontSize: height / 24,
     fontFamily: 'FjallaOne',
     color: '#303030',
+    width: width / 2,
   },
   desc: {
     textAlign: 'center',

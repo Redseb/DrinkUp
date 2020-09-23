@@ -53,7 +53,7 @@ const Swipeable = ({
   const translateY = withSpring({
     value: translationY,
     velocity: velocityY,
-    offset: offsetY || new Value(0),
+    offset: offsetY,
     state,
     snapPoints: snapPointsY,
     onSnap,
