@@ -12,6 +12,8 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
+  withTiming,
+  sequence,
 } from 'react-native-reanimated';
 import Swipeable from '../components/Swipeable';
 
@@ -45,6 +47,24 @@ const GameScreen = ({
       transform: [
         {
           translateY: slideUpY.value,
+        },
+      ],
+    };
+  });
+
+  const backButtonScale = useSharedValue(1);
+  const backButtonAnim = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: sequence(
+            withTiming(backButtonScale.value, {
+              duration: 100,
+            }),
+            withTiming(1, {
+              duration: 100,
+            }),
+          ),
         },
       ],
     };
@@ -97,6 +117,8 @@ const GameScreen = ({
   // Handle back button physical or digital
   const onBack = () => {
     setTimeout(() => {
+      backButtonScale.value = 0.9;
+
       slideUpY.value = withSpring(height, {damping: 20});
       setTimeout(() => setInGame(false), 300);
     }, 200);
@@ -118,11 +140,16 @@ const GameScreen = ({
 
   return (
     <View style={[styles.container, StyleSheet.absoluteFillObject]}>
-      <View style={[styles.backButtonContainer, StyleSheet.absoluteFillObject]}>
+      <Animated.View
+        style={[
+          backButtonAnim,
+          styles.backButtonContainer,
+          StyleSheet.absoluteFillObject,
+        ]}>
         <RectButton onPress={onBack}>
           <Icon name="arrow-back" size={height / 18} color="#FDD451" />
         </RectButton>
-      </View>
+      </Animated.View>
       <Animated.View style={[slideUpAnim, StyleSheet.absoluteFillObject]}>
         <Animated.View
           style={{

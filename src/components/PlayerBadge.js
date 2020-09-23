@@ -19,8 +19,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const {width, height} = Dimensions.get('screen');
 
 const PlayerBadge = ({playerName, id, players, setPlayers}) => {
+  const scale = useSharedValue(0);
+  const scaleStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{scale: withTiming(scale.value, {duration: 200})}],
+    };
+  });
+  useEffect(() => {
+    scale.value = 1;
+  }, []);
+
   return (
-    <View style={[styles.container]}>
+    <Animated.View style={[scaleStyle, styles.container]}>
       <TextInput
         style={styles.name}
         numberOfLines={1}
@@ -41,11 +51,14 @@ const PlayerBadge = ({playerName, id, players, setPlayers}) => {
       <TouchableOpacity
         style={{alignSelf: 'center'}}
         onPress={() => {
-          setPlayers(players.filter((player) => player.id !== id));
+          scale.value = 0;
+          setTimeout(() => {
+            setPlayers(players.filter((player) => player.id !== id));
+          }, 200);
         }}>
         <Icon name="trash" size={height / 25} color="#303030" />
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -56,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#FDD451',
     marginVertical: height / 60,
-    marginHorizontal: width / 20,
+    marginHorizontal: width / 10,
     borderRadius: 10,
     borderColor: '#303030',
     borderWidth: 2,

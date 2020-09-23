@@ -103,7 +103,12 @@ const HomeScreen = ({players, setPlayers, setInGame}) => {
         <Text style={styles.title}>Drink Up!</Text>
       </View>
       <View style={styles.playersContainer}>
-        <ScrollView ref={playerListRef}>{playerBadges}</ScrollView>
+        <ScrollView
+          ref={playerListRef}
+          overScrollMode={'never'}
+          showsVerticalScrollIndicator={false}>
+          {playerBadges}
+        </ScrollView>
       </View>
       <View style={styles.buttonsContainer}>
         <Button
@@ -158,8 +163,8 @@ const styles = StyleSheet.create({
     fontFamily: 'FjallaOne',
   },
   playersContainer: {
-    height: height / 3,
-    marginBottom: height / 50,
+    height: height / 2.5,
+    // marginBottom: height / 50,
   },
   buttonsContainer: {
     height: height / 3,
