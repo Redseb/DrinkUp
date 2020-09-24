@@ -6,17 +6,23 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "start-web": "node ./scripts/generateIndex.js --web && expo start --web-only --web",
+    "start-test": "node ./scripts/generateIndex.js --test && react-native start",
     "test": "jest",
     "lint": "eslint ."
   },
   "dependencies": {
+    "expo": "^39.0.3",
     "react": "16.13.1",
+    "react-dom": "^16.13.1",
     "react-native": "0.63.2",
     "react-native-gesture-handler": "^1.8.0",
-    "react-native-reanimated": "^2.0.0-alpha.6",
+    "react-native-reanimated": "^2.0.0-alpha.7",
     "react-native-redash": "^15.1.4",
     "react-native-splash-screen": "^3.2.0",
     "react-native-vector-icons": "^7.1.0",
+    "react-native-web": "^0.13.13",
+    "react-scripts": "^3.4.3",
     "use-memo-one": "^1.1.1"
   },
   "devDependencies": {
