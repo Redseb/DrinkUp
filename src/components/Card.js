@@ -7,6 +7,7 @@ import Animated, {
   withTiming,
   repeat,
 } from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const {width, height} = Dimensions.get('screen');
 const CARD_HEIGHT = height / 1.3;
@@ -40,13 +41,20 @@ const Card = ({emoji, title, desc, type, style, player}) => {
       )}
 
       <View style={styles.logoContainer}>
-        <Text
+        {/* <Text
           style={[
             styles.logo,
             {marginBottom: height / 150, fontSize: height / 20},
           ]}>
           🍻
-        </Text>
+        </Text> */}
+        <Icon
+          style={{alignSelf: 'center'}}
+          name="beer-outline"
+          size={height / 20}
+          color="#FDD451"
+        />
+
         <Text style={styles.logo}>Drink Up! </Text>
       </View>
     </View>

@@ -8,6 +8,8 @@ target 'drinkUp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'drinkUpTests' do
     inherit! :complete
     # Pods for testing

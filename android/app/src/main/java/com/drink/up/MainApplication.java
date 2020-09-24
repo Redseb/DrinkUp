@@ -1,4 +1,4 @@
-package com.drinkup;
+package com.drink.up;
 
 import android.app.Application;
 import android.content.Context;
