@@ -36,7 +36,7 @@ const PlayerBadge = ({playerName, id, players, setPlayers}) => {
         numberOfLines={1}
         maxLength={12}
         placeholder={`Player ${id}`}
-        value={playerName}
+        // value={playerName}
         onChangeText={(text) => {
           let newPlayers = players;
           for (let i = 0; i < newPlayers.length; i++) {
@@ -46,7 +46,9 @@ const PlayerBadge = ({playerName, id, players, setPlayers}) => {
             }
           }
           setPlayers(newPlayers);
-        }}></TextInput>
+        }}>
+        {playerName}
+      </TextInput>
       <TouchableOpacity
         style={{alignSelf: 'center'}}
         onPress={() => {
